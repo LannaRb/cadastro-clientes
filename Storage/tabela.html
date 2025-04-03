@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Charmonman:wght@400;700&family=Italiana&family=Jura&family=Long+Cang&family=Meow+Script&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nanum+Gothic&family=Noto+Sans+Hanunoo&family=Petit+Formal+Script&family=Poiret+One&family=Rancho&family=Shafarik&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        .cliente-item {
+            margin-bottom: 10px;
+        }
+
+        .botaoC {
+            text-align: center;
+            padding: 20px;
+            font-family: "Jura", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: weight;
+            font-style: normal;
+        }
+
+        h1 {
+            font-family: "Jura", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: weight;
+            font-style: normal;
+            color: #5abdff;
+
+        }
+
+        body {
+            background: radial-gradient(circle, #cfecff, #5abdff);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Lista de Clientes Cadastrados</h1>
+        <ul id="listaClientes" class="list-group mt-4"></ul>
+    </div>
+
+    <div class="botaoC">
+        <button class="btn btn-primary" onclick="window.location.href='cadastro.html'">Cadastrar novo cliente</button>
+    </div>
+
+    <script>
+
+        function exibirClientes() {
+            let lista = document.getElementById('listaClientes');
+            lista.innerHTML = "";
+            let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+            clientes.forEach((cliente, index) => {
+                let li = document.createElement('li');
+                li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+                let clienteInfo = document.createElement('div');
+                clienteInfo.classList.add('d-flex', 'justify-content-between', 'w-60');
+
+                let nomeDiv = document.createElement('div');
+                nomeDiv.classList.add('col');
+                nomeDiv.textContent = cliente.nome;
+
+                let emailDiv = document.createElement('div');
+                emailDiv.classList.add('col');
+                emailDiv.textContent = cliente.email;
+
+                let telefoneDiv = document.createElement('div');
+                telefoneDiv.classList.add('col');
+                telefoneDiv.textContent = cliente.telefone;
+
+                let enderecoDiv = document.createElement('div');
+                enderecoDiv.classList.add('col');
+                enderecoDiv.textContent = cliente.endereco;
+
+                let bairroDiv = document.createElement('div');
+                bairroDiv.classList.add('col');
+                bairroDiv.textContent = cliente.bairro;
+
+                let cidadeDiv = document.createElement('div');
+                cidadeDiv.classList.add('col');
+                cidadeDiv.textContent = cliente.cidade;
+
+                let estadoDiv = document.createElement('div');
+                estadoDiv.classList.add('col');
+                estadoDiv.textContent = cliente.estado;
+
+                clienteInfo.appendChild(nomeDiv);
+                clienteInfo.appendChild(emailDiv);
+                clienteInfo.appendChild(telefoneDiv);
+                clienteInfo.appendChild(enderecoDiv);
+                clienteInfo.appendChild(bairroDiv);
+                clienteInfo.appendChild(cidadeDiv);
+                clienteInfo.appendChild(estadoDiv);
+
+                let botaoExcluir = document.createElement('button');
+                botaoExcluir.classList.add('btn', 'btn-danger', 'ml-2');
+                botaoExcluir.textContent = "Excluir";
+                botaoExcluir.onclick = function () {
+                    clientes.splice(index, 1);
+                    localStorage.setItem('clientes', JSON.stringify(clientes));
+                    exibirClientes();
+                };
+
+                let botaoEditar = document.createElement('button');
+                botaoEditar.classList.add('btn', 'btn-warning');
+                botaoEditar.textContent = "Editar";
+                botaoEditar.onclick = function () {
+                    window.location.href = `editar.html?index=${index}`;
+                };
+
+                li.appendChild(clienteInfo);
+                li.appendChild(botaoEditar);
+                li.appendChild(botaoExcluir);
+                lista.appendChild(li);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', exibirClientes);
+
+    </script>
+</body>
+</html>
